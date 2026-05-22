@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,57 +9,45 @@
   * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
   body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0e0e0e; color: #f0f0f0; min-height: 100vh; }
   .wrap { padding: 1.5rem 1rem 2.5rem; max-width: 440px; margin: 0 auto; text-align: center; }
-
   .header-title { font-size: 15px; font-weight: 500; color: #888; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 1.5rem; }
-
   .audio-banner { display: flex; align-items: center; gap: 8px; background: #2a2200; border: 1px solid #6b4f00; color: #f0b429; font-size: 13px; padding: 10px 14px; border-radius: 10px; margin-bottom: 1.25rem; cursor: pointer; text-align: left; }
   .audio-banner.hidden { display: none; }
-
   .status-pill { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; padding: 4px 16px; border-radius: 20px; margin-bottom: 1rem; }
   .pill-stopped { background: #1c1c1c; color: #666; border: 1px solid #333; }
   .pill-running { background: #0a2e1a; color: #3ecf8e; border: 1px solid #1a5c3a; }
-  .pill-alert  { background: #2e1a0a; color: #f0943e; border: 1px solid #5c3a1a; }
-  .pill-done   { background: #2e0a0a; color: #e05c5c; border: 1px solid #5c1a1a; }
+  .pill-alert { background: #2e1a0a; color: #f0943e; border: 1px solid #5c3a1a; }
+  .pill-done { background: #2e0a0a; color: #e05c5c; border: 1px solid #5c1a1a; }
   .dot { width: 7px; height: 7px; border-radius: 50%; background: currentColor; flex-shrink: 0; }
   .dot.pulse { animation: pulse 1s infinite; }
   @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.2} }
-
-  .time-display { font-size: 88px; font-weight: 600; letter-spacing: -4px; color: #f0f0f0; line-height: 1; margin-bottom: 0.5rem; font-variant-numeric: tabular-nums; transition: color 0.3s; }
+  .time-display { font-size: 88px; font-weight: 600; letter-spacing: -4px; color: #f0f0f0; line-height: 1; margin-bottom: 0.5rem; font-variant-numeric: tabular-nums; }
   .time-display.muted { color: #444; }
   .time-display.warn { color: #f0943e; }
   .time-display.danger { color: #e05c5c; animation: flash 0.6s infinite; }
   @keyframes flash { 0%,100%{opacity:1} 50%{opacity:0.25} }
-
   .alert-message { display: none; margin: 0.75rem auto 1rem; max-width: 320px; background: #2e1a0a; border: 1px solid #5c3a1a; border-radius: 10px; padding: 12px 16px; }
   .alert-message.visible { display: block; }
-  .alert-message .alert-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: #f0943e; margin-bottom: 4px; }
-  .alert-message .alert-text { font-size: 15px; font-weight: 500; color: #f5d7b5; line-height: 1.4; }
-
+  .alert-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: #f0943e; margin-bottom: 4px; }
+  .alert-text { font-size: 15px; font-weight: 500; color: #f5d7b5; line-height: 1.4; }
   .milestone-row { display: flex; justify-content: center; gap: 10px; margin-bottom: 1.5rem; flex-wrap: wrap; }
   .milestone { display: flex; flex-direction: column; align-items: center; gap: 3px; }
   .m-label { font-size: 11px; color: #555; text-transform: uppercase; letter-spacing: 0.06em; }
-  .m-badge { font-size: 12px; font-weight: 500; padding: 3px 10px; border-radius: 20px; background: #1c1c1c; color: #555; border: 1px solid #2a2a2a; transition: all 0.3s; }
+  .m-badge { font-size: 12px; font-weight: 500; padding: 3px 10px; border-radius: 20px; background: #1c1c1c; color: #555; border: 1px solid #2a2a2a; }
   .m-badge.upcoming { background: #1a2e20; color: #3ecf8e; border-color: #2a5c3a; }
   .m-badge.fired { background: #1c1c1c; color: #3a3a3a; border-color: #2a2a2a; text-decoration: line-through; }
-  .m-badge.firing { background: #2e1a0a; color: #f0943e; border-color: #5c3a1a; animation: flash 0.6s infinite; }
-
   .controls { display: flex; gap: 10px; justify-content: center; margin-bottom: 1.5rem; flex-wrap: wrap; }
   .btn { display: inline-flex; align-items: center; gap: 6px; padding: 12px 22px; border-radius: 10px; border: 1px solid #333; background: #1c1c1c; color: #f0f0f0; font-size: 15px; cursor: pointer; font-family: inherit; touch-action: manipulation; }
   .btn:active { transform: scale(0.97); }
   .btn-green { background: #0a2e1a; border-color: #1a5c3a; color: #3ecf8e; }
   .btn-orange { background: #2e1a0a; border-color: #5c3a1a; color: #f0943e; }
-
   .divider { height: 1px; background: #222; margin: 1.25rem 0; }
   .section-label { font-size: 12px; color: #555; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.06em; }
-
   .duration-row { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-bottom: 10px; }
   .pill-btn { padding: 7px 16px; border-radius: 20px; border: 1px solid #333; background: #1c1c1c; color: #aaa; font-size: 13px; cursor: pointer; font-family: inherit; touch-action: manipulation; }
   .pill-btn.active { border-color: #3ecf8e; color: #3ecf8e; background: #0a2e1a; }
   .pill-btn:active { transform: scale(0.97); }
-
   .custom-row { display: flex; gap: 8px; justify-content: center; align-items: center; margin-top: 8px; }
   .custom-row input { width: 72px; text-align: center; font-size: 15px; padding: 7px; border: 1px solid #333; border-radius: 8px; font-family: inherit; background: #1c1c1c; color: #f0f0f0; }
-
   .sound-section { margin-top: 1.25rem; }
   .toggle-row { display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 10px; }
   .toggle { position: relative; width: 42px; height: 24px; cursor: pointer; flex-shrink: 0; }
@@ -70,8 +59,9 @@
   .sound-opts { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
   .sound-opt { padding: 6px 14px; border-radius: 20px; border: 1px solid #333; background: #1c1c1c; color: #666; font-size: 13px; cursor: pointer; font-family: inherit; touch-action: manipulation; }
   .sound-opt.selected { border-color: #3ecf8e; color: #3ecf8e; background: #0a2e1a; }
-
   .sync-note { font-size: 12px; color: #444; margin-top: 1.5rem; line-height: 1.6; }
+  .firebase-status { font-size: 11px; margin-bottom: 1rem; color: #555; }
+  .firebase-status.connected { color: #3ecf8e; }
 </style>
 </head>
 <body>
@@ -82,6 +72,8 @@
     🔔 Tap here first to enable alarm on this device
   </div>
 
+  <div class="firebase-status" id="syncStatus">Connecting…</div>
+
   <div id="pill" class="status-pill pill-stopped">
     <div class="dot" id="dot"></div>
     <span id="pillText">Ready</span>
@@ -90,27 +82,15 @@
   <div class="time-display muted" id="display">45:00</div>
 
   <div class="alert-message" id="alertMsg">
-    <div class="alert-label" id="alertLabel">10 min remaining</div>
-    <div class="alert-text" id="alertText"></div>
+    <div class="alert-label">10 min remaining</div>
+    <div class="alert-text">Next flagger, walk the LAST RUN sign down the grid</div>
   </div>
 
   <div class="milestone-row">
-    <div class="milestone">
-      <div class="m-label">Alert</div>
-      <div class="m-badge upcoming" id="m15">15 min</div>
-    </div>
-    <div class="milestone">
-      <div class="m-label">Alert</div>
-      <div class="m-badge upcoming" id="m10">10 min</div>
-    </div>
-    <div class="milestone">
-      <div class="m-label">Alert</div>
-      <div class="m-badge upcoming" id="m5">5 min</div>
-    </div>
-    <div class="milestone">
-      <div class="m-label">End</div>
-      <div class="m-badge upcoming" id="m0">Time's up</div>
-    </div>
+    <div class="milestone"><div class="m-label">Alert</div><div class="m-badge upcoming" id="m15">15 min</div></div>
+    <div class="milestone"><div class="m-label">Alert</div><div class="m-badge upcoming" id="m10">10 min</div></div>
+    <div class="milestone"><div class="m-label">Alert</div><div class="m-badge upcoming" id="m5">5 min</div></div>
+    <div class="milestone"><div class="m-label">End</div><div class="m-badge upcoming" id="m0">Time's up</div></div>
   </div>
 
   <div class="controls">
@@ -139,7 +119,7 @@
         <input type="checkbox" id="alarmToggle" checked onchange="onAlarmToggle()">
         <div class="slider-track"><div class="slider-thumb"></div></div>
       </label>
-      <span style="font-size:14px; color:#aaa" id="alarmLabel">Alarm on</span>
+      <span style="font-size:14px;color:#aaa" id="alarmLabel">Alarm on</span>
     </div>
     <div class="sound-opts" id="soundOpts">
       <button class="sound-opt selected" id="opt-beep" onclick="selectSound('beep')">Beep</button>
@@ -148,95 +128,104 @@
     </div>
   </div>
 
-  <p class="sync-note">Syncs every 2s — share this page URL with your group.<br>Each person taps the banner once to enable sound.</p>
+  <p class="sync-note">Syncs in real-time — share this page URL with your group.<br>Each person taps the banner once to enable sound.</p>
 </div>
 
-<script>
-const STORAGE_KEY = 'gll_timer_v3';
-const MILESTONES = [900, 600, 300];
+<!-- Firebase -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getDatabase, ref, onValue, set } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
 
-const MILESTONE_MESSAGES = {
-  900: { label: '15 min remaining', text: '' },
-  600: { label: '10 min remaining', text: 'Next flagger, walk the LAST RUN sign down the grid' },
-  300: { label: '5 min remaining', text: '' }
+// ── PASTE YOUR FIREBASE CONFIG HERE ──────────────────────────────
+const firebaseConfig = {
+  apiKey: "AIzaSyBf8drdRTu-PhfXUAqTWaoKxL09WEmBleo",
+  authDomain: "gll-timer.firebaseapp.com",
+  databaseURL: "https://gll-timer-default-rtdb.firebaseio.com",
+  projectId: "gll-timer",
+  storageBucket: "gll-timer.firebasestorage.app",
+  messagingSenderId: "88345186429",
+  appId: "1:88345186429:web:3f3ab4f571ac3cb0782114"
 };
+// ─────────────────────────────────────────────────────────────────
 
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+const timerRef = ref(db, 'gll/timer');
+
+const MILESTONES = [900, 600, 300];
 let audioCtx = null;
 let audioUnlocked = false;
-let cachedState = null;
-let localTick = null;
 let alarmPlaying = false;
 let alarmInterval = null;
 let selectedSound = 'beep';
 let alarmEnabled = true;
-let activeDurBtn = null;
+let activeDurBtn = document.getElementById('dur-45');
+let localTick = null;
+let state = null;
+let ignoreNextRemote = false;
 
-function getCtx() {
-  if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-  return audioCtx;
-}
-
-function unlockAudio() {
+// ── Audio ──────────────────────────────────────────────────────
+window.unlockAudio = function() {
   try {
-    const ctx = getCtx();
-    if (ctx.state === 'suspended') ctx.resume();
-    const buf = ctx.createBuffer(1, 1, 22050);
-    const src = ctx.createBufferSource();
-    src.buffer = buf; src.connect(ctx.destination); src.start(0);
+    if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    if (audioCtx.state === 'suspended') audioCtx.resume();
+    const buf = audioCtx.createBuffer(1,1,22050);
+    const src = audioCtx.createBufferSource();
+    src.buffer = buf; src.connect(audioCtx.destination); src.start(0);
     audioUnlocked = true;
     document.getElementById('audioBanner').classList.add('hidden');
   } catch(e) {}
 }
 
-function selectSound(name) {
+window.selectSound = function(name) {
   selectedSound = name;
   ['beep','horn','buzz'].forEach(n => document.getElementById('opt-'+n).classList.toggle('selected', n===name));
 }
 
-function onAlarmToggle() {
+window.onAlarmToggle = function() {
   alarmEnabled = document.getElementById('alarmToggle').checked;
   document.getElementById('alarmLabel').textContent = alarmEnabled ? 'Alarm on' : 'Alarm off';
   document.getElementById('soundOpts').style.opacity = alarmEnabled ? '1' : '0.4';
 }
 
 function playTone(isMilestone) {
-  if (!audioUnlocked) return;
+  if (!audioUnlocked || !alarmEnabled) return;
   try {
-    const ctx = getCtx();
-    if (ctx.state === 'suspended') ctx.resume();
+    if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    if (audioCtx.state === 'suspended') audioCtx.resume();
     if (selectedSound === 'horn') {
-      const osc = ctx.createOscillator(); const gain = ctx.createGain();
-      osc.type = 'sawtooth'; osc.frequency.setValueAtTime(320, ctx.currentTime);
-      osc.frequency.linearRampToValueAtTime(180, ctx.currentTime + 0.6);
-      gain.gain.setValueAtTime(0.5, ctx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.8);
-      osc.connect(gain); gain.connect(ctx.destination);
-      osc.start(ctx.currentTime); osc.stop(ctx.currentTime + 0.9);
+      const osc = audioCtx.createOscillator(), gain = audioCtx.createGain();
+      osc.type = 'sawtooth';
+      osc.frequency.setValueAtTime(320, audioCtx.currentTime);
+      osc.frequency.linearRampToValueAtTime(180, audioCtx.currentTime + 0.6);
+      gain.gain.setValueAtTime(0.5, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.8);
+      osc.connect(gain); gain.connect(audioCtx.destination);
+      osc.start(); osc.stop(audioCtx.currentTime + 0.9);
     } else if (selectedSound === 'buzz') {
-      [0, 0.25, 0.5].forEach(t => {
-        const osc = ctx.createOscillator(); const gain = ctx.createGain();
+      [0,0.25,0.5].forEach(t => {
+        const osc = audioCtx.createOscillator(), gain = audioCtx.createGain();
         osc.type = 'sawtooth'; osc.frequency.value = 140;
-        gain.gain.setValueAtTime(0.35, ctx.currentTime + t);
-        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + t + 0.22);
-        osc.connect(gain); gain.connect(ctx.destination);
-        osc.start(ctx.currentTime + t); osc.stop(ctx.currentTime + t + 0.25);
+        gain.gain.setValueAtTime(0.35, audioCtx.currentTime+t);
+        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime+t+0.22);
+        osc.connect(gain); gain.connect(audioCtx.destination);
+        osc.start(audioCtx.currentTime+t); osc.stop(audioCtx.currentTime+t+0.25);
       });
     } else {
-      const notes = isMilestone ? [880, 880, 1100] : [1320, 1100, 880];
-      [0, 0.2, 0.4].forEach((t, i) => {
-        const osc = ctx.createOscillator(); const gain = ctx.createGain();
+      const notes = isMilestone ? [880,880,1100] : [1320,1100,880];
+      [0,0.2,0.4].forEach((t,i) => {
+        const osc = audioCtx.createOscillator(), gain = audioCtx.createGain();
         osc.type = 'sine'; osc.frequency.value = notes[i];
-        gain.gain.setValueAtTime(0.4, ctx.currentTime + t);
-        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + t + 0.3);
-        osc.connect(gain); gain.connect(ctx.destination);
-        osc.start(ctx.currentTime + t); osc.stop(ctx.currentTime + t + 0.35);
+        gain.gain.setValueAtTime(0.4, audioCtx.currentTime+t);
+        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime+t+0.3);
+        osc.connect(gain); gain.connect(audioCtx.destination);
+        osc.start(audioCtx.currentTime+t); osc.stop(audioCtx.currentTime+t+0.35);
       });
     }
   } catch(e) {}
 }
 
 function startAlarm(isMilestone) {
-  if (!alarmEnabled || !audioUnlocked) return;
   stopAlarm();
   alarmPlaying = true;
   playTone(isMilestone);
@@ -254,55 +243,49 @@ function stopAlarm() {
   if (alarmInterval) { clearInterval(alarmInterval); alarmInterval = null; }
 }
 
-function fmt(secs) {
-  const s = Math.max(0, Math.round(secs));
-  return String(Math.floor(s/60)).padStart(2,'0') + ':' + String(s%60).padStart(2,'0');
-}
-
+// ── State helpers ───────────────────────────────────────────────
 function remaining(s) {
   if (!s) return 0;
   if (s.running && s.startedAt) return Math.max(0, s.remainingAtStart - (Date.now() - s.startedAt) / 1000);
   return s.remainingAtStart || 0;
 }
 
-function showAlertMessage(milestoneKey) {
-  const msg = MILESTONE_MESSAGES[milestoneKey];
-  const box = document.getElementById('alertMsg');
-  if (msg && msg.text) {
-    document.getElementById('alertLabel').textContent = msg.label;
-    document.getElementById('alertText').textContent = msg.text;
-    box.classList.add('visible');
-  } else if (msg && !msg.text) {
-    box.classList.remove('visible');
-  }
+function fmt(secs) {
+  const s = Math.max(0, Math.round(secs));
+  return String(Math.floor(s/60)).padStart(2,'0') + ':' + String(s%60).padStart(2,'0');
 }
 
-function hideAlertMessage() {
-  document.getElementById('alertMsg').classList.remove('visible');
+function saveState(s) {
+  ignoreNextRemote = true;
+  set(timerRef, s);
 }
 
-function updateMilestoneBadges(rem, fired) {
-  const defs = [{id:'m15',secs:900},{id:'m10',secs:600},{id:'m5',secs:300},{id:'m0',secs:0}];
-  defs.forEach(({id, secs}) => {
-    const el = document.getElementById(id);
-    const isFired = fired.includes(secs) || (secs === 0 && rem <= 0);
-    el.className = 'm-badge' + (isFired ? ' fired' : ' upcoming');
-  });
-}
-
+// ── Render ──────────────────────────────────────────────────────
 function render(s) {
-  const disp = document.getElementById('display');
+  if (!s) return;
+  const rem = remaining(s);
+  const fired = s.firedMilestones || [];
+
+  document.getElementById('display').textContent = fmt(rem);
+
+  // milestone badges
+  [{id:'m15',secs:900},{id:'m10',secs:600},{id:'m5',secs:300},{id:'m0',secs:0}].forEach(({id,secs}) => {
+    const el = document.getElementById(id);
+    const isFired = fired.includes(secs) || (secs===0 && rem<=0 && s.totalSeconds>0);
+    el.className = 'm-badge ' + (isFired ? 'fired' : 'upcoming');
+  });
+
+  // 10-min message: show between 10min fired and 5min fired
+  const show10msg = fired.includes(600) && !fired.includes(300) && s.running;
+  document.getElementById('alertMsg').classList.toggle('visible', show10msg);
+
   const pill = document.getElementById('pill');
   const dot = document.getElementById('dot');
   const pillText = document.getElementById('pillText');
   const startBtn = document.getElementById('startBtn');
   const pauseBtn = document.getElementById('pauseBtn');
   const dismissBtn = document.getElementById('dismissBtn');
-  const rem = remaining(s);
-  const fired = s.firedMilestones || [];
-
-  disp.textContent = fmt(rem);
-  updateMilestoneBadges(rem, fired);
+  const disp = document.getElementById('display');
 
   if (s.alarming) {
     disp.className = 'time-display danger';
@@ -312,7 +295,6 @@ function render(s) {
     startBtn.style.display = 'none';
     pauseBtn.style.display = 'none';
     dismissBtn.style.display = 'inline-flex';
-    hideAlertMessage();
     if (!alarmPlaying) startAlarm(false);
   } else if (s.running && rem > 0) {
     disp.className = rem <= 300 ? 'time-display warn' : 'time-display';
@@ -323,19 +305,11 @@ function render(s) {
     pauseBtn.style.display = 'inline-flex';
     dismissBtn.style.display = 'none';
     if (alarmPlaying && !s.alarming) stopAlarm();
-    // Show 10-min message while in that window
-    if (fired.includes(600) && !fired.includes(300)) {
-      showAlertMessage(600);
-    } else if (!fired.includes(600)) {
-      hideAlertMessage();
-    } else {
-      hideAlertMessage();
-    }
   } else {
     disp.className = 'time-display muted';
     pill.className = 'status-pill pill-stopped';
     dot.classList.remove('pulse');
-    pillText.textContent = rem > 0 ? 'Paused' : rem === 0 && s.totalSeconds > 0 ? 'Done' : 'Ready';
+    pillText.textContent = rem > 0 ? 'Paused' : s.totalSeconds > 0 && rem === 0 ? 'Done' : 'Ready';
     startBtn.style.display = 'inline-flex';
     pauseBtn.style.display = 'none';
     dismissBtn.style.display = 'none';
@@ -343,109 +317,109 @@ function render(s) {
   }
 }
 
-async function load() {
-  try {
-    const r = await window.storage.get(STORAGE_KEY, true);
-    return r ? JSON.parse(r.value) : null;
-  } catch { return null; }
-}
-
-async function save(s) {
-  try { await window.storage.set(STORAGE_KEY, JSON.stringify(s), true); } catch {}
-}
-
-async function sync() {
-  let s = await load();
-  if (!s) s = { running:false, remainingAtStart:2700, totalSeconds:2700, startedAt:null, alarming:false, firedMilestones:[] };
-  if (!s.firedMilestones) s.firedMilestones = [];
-  if (s.running && !s.alarming) {
-    const rem = remaining(s);
-    MILESTONES.forEach(m => {
-      if (rem <= m && !s.firedMilestones.includes(m)) {
-        s.firedMilestones.push(m);
-        save(s);
-        startAlarm(true);
-      }
-    });
-    if (rem <= 0) { s.running = false; s.remainingAtStart = 0; s.alarming = true; await save(s); }
-  }
-  cachedState = s;
-  render(s);
-}
-
+// ── Local tick (smooth countdown) ──────────────────────────────
 function startTick() {
   if (localTick) return;
   localTick = setInterval(() => {
-    if (!cachedState?.running) return;
-    const rem = remaining(cachedState);
+    if (!state?.running || state?.alarming) return;
+    const rem = remaining(state);
+    // Check milestones locally and push to Firebase
     MILESTONES.forEach(m => {
-      if (rem <= m && !cachedState.firedMilestones.includes(m)) {
-        cachedState.firedMilestones.push(m);
-        save(cachedState);
+      if (rem <= m && !(state.firedMilestones||[]).includes(m)) {
+        if (!state.firedMilestones) state.firedMilestones = [];
+        state.firedMilestones.push(m);
         startAlarm(true);
+        saveState(state);
       }
     });
-    render(cachedState);
+    if (rem <= 0) {
+      state.running = false;
+      state.remainingAtStart = 0;
+      state.alarming = true;
+      saveState(state);
+    }
+    render(state);
   }, 250);
 }
 
-async function handleStart() {
-  const s = cachedState || { running:false, remainingAtStart:2700, totalSeconds:2700, startedAt:null, alarming:false, firedMilestones:[] };
+// ── Firebase listener ──────────────────────────────────────────
+onValue(timerRef, (snapshot) => {
+  document.getElementById('syncStatus').textContent = '● Synced';
+  document.getElementById('syncStatus').className = 'firebase-status connected';
+
+  if (ignoreNextRemote) { ignoreNextRemote = false; return; }
+
+  const remote = snapshot.val();
+  if (!remote) {
+    state = { running:false, remainingAtStart:2700, totalSeconds:2700, startedAt:null, alarming:false, firedMilestones:[] };
+    render(state);
+    return;
+  }
+  state = remote;
+  if (!state.firedMilestones) state.firedMilestones = [];
+  render(state);
+  if (state.running) startTick();
+});
+
+// ── Controls ───────────────────────────────────────────────────
+window.handleStart = function() {
+  const s = state || { running:false, remainingAtStart:2700, totalSeconds:2700, startedAt:null, alarming:false, firedMilestones:[] };
   if (!s.firedMilestones) s.firedMilestones = [];
   if (s.remainingAtStart <= 0) s.remainingAtStart = s.totalSeconds || 2700;
   if (s.remainingAtStart === s.totalSeconds) s.firedMilestones = [];
   s.running = true; s.alarming = false; s.startedAt = Date.now();
-  cachedState = s; await save(s); render(s); startTick();
+  state = s; saveState(s); render(s); startTick();
 }
 
-async function handlePause() {
-  if (!cachedState) return;
-  cachedState.remainingAtStart = remaining(cachedState);
-  cachedState.running = false; cachedState.startedAt = null;
-  await save(cachedState); render(cachedState);
+window.handlePause = function() {
+  if (!state) return;
+  state.remainingAtStart = remaining(state);
+  state.running = false; state.startedAt = null;
+  saveState(state); render(state);
 }
 
-async function handleReset() {
-  stopAlarm(); hideAlertMessage();
-  const total = cachedState?.totalSeconds || 2700;
-  cachedState = { running:false, remainingAtStart:total, totalSeconds:total, startedAt:null, alarming:false, firedMilestones:[] };
-  await save(cachedState); render(cachedState);
+window.handleReset = function() {
+  stopAlarm();
+  document.getElementById('alertMsg').classList.remove('visible');
+  const total = state?.totalSeconds || 2700;
+  state = { running:false, remainingAtStart:total, totalSeconds:total, startedAt:null, alarming:false, firedMilestones:[] };
+  saveState(state); render(state);
 }
 
-async function handleDismiss() {
-  stopAlarm(); hideAlertMessage();
-  if (!cachedState) return;
-  cachedState.alarming = false; cachedState.remainingAtStart = cachedState.totalSeconds; cachedState.firedMilestones = [];
-  await save(cachedState); render(cachedState);
+window.handleDismiss = function() {
+  stopAlarm();
+  document.getElementById('alertMsg').classList.remove('visible');
+  if (!state) return;
+  state.alarming = false; state.remainingAtStart = state.totalSeconds; state.firedMilestones = [];
+  saveState(state); render(state);
 }
 
-function setDuration(secs, btn) {
+window.setDuration = function(secs, btn) {
   if (activeDurBtn) activeDurBtn.classList.remove('active');
   if (btn) { btn.classList.add('active'); activeDurBtn = btn; }
   document.getElementById('customRow').style.display = 'none';
-  cachedState = { running:false, remainingAtStart:secs, totalSeconds:secs, startedAt:null, alarming:false, firedMilestones:[] };
-  save(cachedState); render(cachedState);
+  state = { running:false, remainingAtStart:secs, totalSeconds:secs, startedAt:null, alarming:false, firedMilestones:[] };
+  saveState(state); render(state);
 }
 
-function toggleCustom(btn) {
+window.toggleCustom = function(btn) {
   if (activeDurBtn) activeDurBtn.classList.remove('active');
   btn.classList.add('active'); activeDurBtn = btn;
   document.getElementById('customRow').style.display = 'flex';
 }
 
-function setCustom() {
+window.setCustom = function() {
   const m = parseInt(document.getElementById('customMin').value) || 0;
   if (!m) return;
   document.getElementById('customMin').value = '';
   const total = m * 60;
-  cachedState = { running:false, remainingAtStart:total, totalSeconds:total, startedAt:null, alarming:false, firedMilestones:[] };
-  save(cachedState); render(cachedState);
+  state = { running:false, remainingAtStart:total, totalSeconds:total, startedAt:null, alarming:false, firedMilestones:[] };
+  saveState(state); render(state);
 }
 
-activeDurBtn = document.getElementById('dur-45');
-sync();
-startTick();
-setInterval(sync, 2000);
+// Initial render
+state = { running:false, remainingAtStart:2700, totalSeconds:2700, startedAt:null, alarming:false, firedMilestones:[] };
+render(state);
 </script>
 </body>
 </html>
