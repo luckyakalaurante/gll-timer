@@ -390,12 +390,12 @@ function applyAdminUI() {
   document.getElementById('adminPanel').classList.toggle('visible', isAdmin);
   document.getElementById('adminUnlock').style.display = isAdmin ? 'none' : 'block';
   document.getElementById('viewOnlyBadge').style.display = isAdmin ? 'none' : 'inline-block';
-  // Show/hide controls based on role
-  document.getElementById('pauseBtn').style.display = isAdmin ? '' : 'none';
   document.getElementById('resetBtn').style.display = isAdmin ? '' : 'none';
+  if (!isAdmin) document.getElementById('pauseBtn').style.display = 'none';
   document.getElementById('startBtn').style.pointerEvents = isAdmin ? 'auto' : 'none';
   document.getElementById('dismissBtn').style.pointerEvents = isAdmin ? 'auto' : 'none';
   document.querySelector('.controls').style.opacity = isAdmin ? '1' : '0.4';
+  document.querySelector('.milestone-row').style.display = isAdmin ? 'flex' : 'none';
 }
 
 // ── State helpers ─────────────────────────────────────────────
@@ -497,7 +497,7 @@ function render(s) {
     dot.classList.add('pulse');
     pillText.textContent = rem <= 300 ? '5 min left' : rem <= 600 ? '10 min left' : 'Running';
     startBtn.style.display = 'none';
-    pauseBtn.style.display = 'inline-flex';
+    if (isAdmin) pauseBtn.style.display = 'inline-flex';
     dismissBtn.style.display = 'none';
     if (alarmPlaying && !s.alarming) stopAlarm();
   } else {
