@@ -195,6 +195,17 @@
     </div>
 
     <div class="divider"></div>
+    <div class="divider"></div>
+    <div class="section-label">Session Duration</div>
+    <div class="active-group-btns" style="margin-bottom:10px">
+      <button class="group-select-btn active" id="dur45" onclick="setDuration(2700, this)">45 min</button>
+      <button class="group-select-btn" id="durCustom" onclick="toggleCustomDur(this)">Custom</button>
+    </div>
+    <div id="customDurRow" style="display:none; justify-content:center; align-items:center; gap:8px; margin-bottom:10px;">
+      <input type="number" id="customDurMin" min="1" max="99" placeholder="minutes" style="width:80px;text-align:center;font-size:15px;padding:7px;border:1px solid #333;border-radius:8px;font-family:inherit;background:#1c1c1c;color:#f0f0f0;" />
+      <button class="group-select-btn" onclick="applyCustomDur()">Set</button>
+    </div>
+
     <div class="section-label">Alarm sound</div>
     <div class="toggle-row">
       <label class="toggle">
@@ -608,8 +619,37 @@ window.setActiveGroup = (idx) => {
   saveState(state); render(state);
 };
 
+let activeDurBtn = null;
+window.setDuration = (secs, btn) => {
+  if (!isAdmin) return;
+  if (activeDurBtn) activeDurBtn.classList.remove('active');
+  if (btn) { btn.classList.add('active'); activeDurBtn = btn; }
+  document.getElementById('customDurRow').style.display = 'none';
+  const s = state || defaultState();
+  s.running = false; s.remainingAtStart = secs; s.totalSeconds = secs;
+  s.startedAt = null; s.alarming = false; s.firedMilestones = [];
+  state = s; saveState(s); render(s);
+};
+
+window.toggleCustomDur = (btn) => {
+  if (activeDurBtn) activeDurBtn.classList.remove('active');
+  btn.classList.add('active'); activeDurBtn = btn;
+  document.getElementById('customDurRow').style.display = 'flex';
+};
+
+window.applyCustomDur = () => {
+  const m = parseInt(document.getElementById('customDurMin').value) || 0;
+  if (!m) return;
+  document.getElementById('customDurMin').value = '';
+  const s = state || defaultState();
+  s.running = false; s.remainingAtStart = m*60; s.totalSeconds = m*60;
+  s.startedAt = null; s.alarming = false; s.firedMilestones = [];
+  state = s; saveState(s); render(s);
+};
+
 // Init
 applyAdminUI();
+activeDurBtn = document.getElementById('dur45');
 state = defaultState();
 render(state);
 </script>
