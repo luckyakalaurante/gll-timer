@@ -8,11 +8,26 @@
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
   body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0e0e0e; color: #f0f0f0; min-height: 100vh; }
-  .wrap { padding: 1.5rem 1rem 2.5rem; max-width: 440px; margin: 0 auto; text-align: center; }
-  .header-title { font-size: 15px; font-weight: 500; color: #888; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 1.5rem; }
-  .audio-banner { display: flex; align-items: center; gap: 8px; background: #2a2200; border: 1px solid #6b4f00; color: #f0b429; font-size: 13px; padding: 10px 14px; border-radius: 10px; margin-bottom: 1.25rem; cursor: pointer; text-align: left; }
+  .wrap { padding: 1.5rem 1rem 2.5rem; max-width: 460px; margin: 0 auto; text-align: center; }
+
+  .header-title { font-size: 15px; font-weight: 500; color: #666; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 1.25rem; }
+
+  .audio-banner { display: flex; align-items: center; gap: 8px; background: #2a2200; border: 1px solid #6b4f00; color: #f0b429; font-size: 13px; padding: 10px 14px; border-radius: 10px; margin-bottom: 1rem; cursor: pointer; text-align: left; }
   .audio-banner.hidden { display: none; }
-  .status-pill { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; padding: 4px 16px; border-radius: 20px; margin-bottom: 1rem; }
+
+  .sync-status { font-size: 11px; color: #555; margin-bottom: 1rem; }
+  .sync-status.connected { color: #3ecf8e; }
+
+  /* Run group display */
+  .run-group-display { margin-bottom: 1.25rem; }
+  .run-group-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: #555; margin-bottom: 4px; }
+  .run-group-name { font-size: 28px; font-weight: 600; color: #f0f0f0; min-height: 36px; }
+  .run-group-name.empty { color: #333; }
+  .next-group-label { font-size: 12px; color: #444; margin-top: 4px; }
+  .next-group-label span { color: #666; }
+
+  /* Status pill */
+  .status-pill { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; padding: 4px 16px; border-radius: 20px; margin-bottom: 0.75rem; }
   .pill-stopped { background: #1c1c1c; color: #666; border: 1px solid #333; }
   .pill-running { background: #0a2e1a; color: #3ecf8e; border: 1px solid #1a5c3a; }
   .pill-alert { background: #2e1a0a; color: #f0943e; border: 1px solid #5c3a1a; }
@@ -20,35 +35,46 @@
   .dot { width: 7px; height: 7px; border-radius: 50%; background: currentColor; flex-shrink: 0; }
   .dot.pulse { animation: pulse 1s infinite; }
   @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.2} }
+
+  /* Timer */
   .time-display { font-size: 88px; font-weight: 600; letter-spacing: -4px; color: #f0f0f0; line-height: 1; margin-bottom: 0.5rem; font-variant-numeric: tabular-nums; }
-  .time-display.muted { color: #444; }
+  .time-display.muted { color: #333; }
   .time-display.warn { color: #f0943e; }
   .time-display.danger { color: #e05c5c; animation: flash 0.6s infinite; }
   @keyframes flash { 0%,100%{opacity:1} 50%{opacity:0.25} }
-  .alert-message { display: none; margin: 0.75rem auto 1rem; max-width: 320px; background: #2e1a0a; border: 1px solid #5c3a1a; border-radius: 10px; padding: 12px 16px; }
+
+  /* Alert message */
+  .alert-message { display: none; margin: 0.5rem auto 0.75rem; max-width: 340px; background: #2e1a0a; border: 1px solid #5c3a1a; border-radius: 10px; padding: 10px 14px; }
   .alert-message.visible { display: block; }
-  .alert-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: #f0943e; margin-bottom: 4px; }
-  .alert-text { font-size: 15px; font-weight: 500; color: #f5d7b5; line-height: 1.4; }
-  .milestone-row { display: flex; justify-content: center; gap: 10px; margin-bottom: 1.5rem; flex-wrap: wrap; }
+  .alert-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: #f0943e; margin-bottom: 3px; }
+  .alert-text { font-size: 14px; font-weight: 500; color: #f5d7b5; line-height: 1.4; }
+
+  /* Milestone badges */
+  .milestone-row { display: flex; justify-content: center; gap: 10px; margin-bottom: 1.25rem; flex-wrap: wrap; }
   .milestone { display: flex; flex-direction: column; align-items: center; gap: 3px; }
   .m-label { font-size: 11px; color: #555; text-transform: uppercase; letter-spacing: 0.06em; }
   .m-badge { font-size: 12px; font-weight: 500; padding: 3px 10px; border-radius: 20px; background: #1c1c1c; color: #555; border: 1px solid #2a2a2a; }
   .m-badge.upcoming { background: #1a2e20; color: #3ecf8e; border-color: #2a5c3a; }
-  .m-badge.fired { background: #1c1c1c; color: #3a3a3a; border-color: #2a2a2a; text-decoration: line-through; }
-  .controls { display: flex; gap: 10px; justify-content: center; margin-bottom: 1.5rem; flex-wrap: wrap; }
+  .m-badge.fired { background: #1c1c1c; color: #333; border-color: #222; text-decoration: line-through; }
+
+  /* Controls */
+  .controls { display: flex; gap: 10px; justify-content: center; margin-bottom: 1.25rem; flex-wrap: wrap; }
   .btn { display: inline-flex; align-items: center; gap: 6px; padding: 12px 22px; border-radius: 10px; border: 1px solid #333; background: #1c1c1c; color: #f0f0f0; font-size: 15px; cursor: pointer; font-family: inherit; touch-action: manipulation; }
   .btn:active { transform: scale(0.97); }
   .btn-green { background: #0a2e1a; border-color: #1a5c3a; color: #3ecf8e; }
   .btn-orange { background: #2e1a0a; border-color: #5c3a1a; color: #f0943e; }
-  .divider { height: 1px; background: #222; margin: 1.25rem 0; }
+  .btn-blue { background: #0a1a2e; border-color: #1a3a5c; color: #3e9ecf; }
+
+  /* Next group ready banner */
+  .next-ready-banner { display: none; background: #0a1a2e; border: 1px solid #1a3a5c; border-radius: 10px; padding: 10px 14px; margin-bottom: 1rem; }
+  .next-ready-banner.visible { display: block; }
+  .next-ready-banner .nr-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: #3e9ecf; margin-bottom: 3px; }
+  .next-ready-banner .nr-text { font-size: 14px; color: #a0ccee; }
+
+  .divider { height: 1px; background: #1e1e1e; margin: 1.25rem 0; }
   .section-label { font-size: 12px; color: #555; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.06em; }
-  .duration-row { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-bottom: 10px; }
-  .pill-btn { padding: 7px 16px; border-radius: 20px; border: 1px solid #333; background: #1c1c1c; color: #aaa; font-size: 13px; cursor: pointer; font-family: inherit; touch-action: manipulation; }
-  .pill-btn.active { border-color: #3ecf8e; color: #3ecf8e; background: #0a2e1a; }
-  .pill-btn:active { transform: scale(0.97); }
-  .custom-row { display: flex; gap: 8px; justify-content: center; align-items: center; margin-top: 8px; }
-  .custom-row input { width: 72px; text-align: center; font-size: 15px; padding: 7px; border: 1px solid #333; border-radius: 8px; font-family: inherit; background: #1c1c1c; color: #f0f0f0; }
-  .sound-section { margin-top: 1.25rem; }
+
+  /* Sound */
   .toggle-row { display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 10px; }
   .toggle { position: relative; width: 42px; height: 24px; cursor: pointer; flex-shrink: 0; }
   .toggle input { opacity: 0; width: 0; height: 0; }
@@ -59,9 +85,39 @@
   .sound-opts { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
   .sound-opt { padding: 6px 14px; border-radius: 20px; border: 1px solid #333; background: #1c1c1c; color: #666; font-size: 13px; cursor: pointer; font-family: inherit; touch-action: manipulation; }
   .sound-opt.selected { border-color: #3ecf8e; color: #3ecf8e; background: #0a2e1a; }
-  .sync-note { font-size: 12px; color: #444; margin-top: 1.5rem; line-height: 1.6; }
-  .firebase-status { font-size: 11px; margin-bottom: 1rem; color: #555; }
-  .firebase-status.connected { color: #3ecf8e; }
+
+  /* Admin panel */
+  .admin-panel { display: none; }
+  .admin-panel.visible { display: block; }
+  .admin-lock { font-size: 12px; color: #444; margin-top: 1.5rem; cursor: pointer; }
+  .admin-lock:hover { color: #666; }
+
+  .group-inputs { display: flex; flex-direction: column; gap: 10px; margin-bottom: 1rem; }
+  .group-input-row { display: flex; align-items: center; gap: 10px; }
+  .group-input-row label { font-size: 13px; color: #888; width: 60px; text-align: right; flex-shrink: 0; }
+  .group-input-row input { flex: 1; background: #1c1c1c; border: 1px solid #333; border-radius: 8px; padding: 8px 12px; color: #f0f0f0; font-size: 14px; font-family: inherit; }
+  .group-input-row input:focus { outline: none; border-color: #3ecf8e; }
+
+  .active-group-btns { display: flex; gap: 8px; justify-content: center; margin-bottom: 0.5rem; }
+  .group-select-btn { padding: 7px 18px; border-radius: 20px; border: 1px solid #333; background: #1c1c1c; color: #888; font-size: 13px; cursor: pointer; font-family: inherit; touch-action: manipulation; transition: all 0.15s; }
+  .group-select-btn.active { border-color: #3ecf8e; color: #3ecf8e; background: #0a2e1a; }
+
+  /* Login overlay */
+  .login-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 100; align-items: center; justify-content: center; }
+  .login-overlay.visible { display: flex; }
+  .login-box { background: #1c1c1c; border: 1px solid #333; border-radius: 14px; padding: 2rem; width: 280px; text-align: center; }
+  .login-box h2 { font-size: 16px; font-weight: 500; margin-bottom: 0.5rem; color: #f0f0f0; }
+  .login-box p { font-size: 13px; color: #666; margin-bottom: 1.25rem; }
+  .login-box input { width: 100%; background: #0e0e0e; border: 1px solid #333; border-radius: 8px; padding: 10px 14px; color: #f0f0f0; font-size: 15px; font-family: inherit; margin-bottom: 10px; text-align: center; letter-spacing: 0.05em; }
+  .login-box input:focus { outline: none; border-color: #3ecf8e; }
+  .login-error { font-size: 12px; color: #e05c5c; margin-bottom: 10px; min-height: 16px; }
+  .login-btns { display: flex; gap: 8px; }
+  .login-btns button { flex: 1; padding: 10px; border-radius: 8px; border: 1px solid #333; background: #1c1c1c; color: #f0f0f0; font-size: 14px; cursor: pointer; font-family: inherit; }
+  .login-btns .btn-confirm { background: #0a2e1a; border-color: #1a5c3a; color: #3ecf8e; }
+
+  .view-only-badge { display: inline-block; font-size: 11px; color: #444; border: 1px solid #2a2a2a; border-radius: 20px; padding: 2px 10px; margin-bottom: 1rem; }
+
+  .sync-note { font-size: 12px; color: #333; margin-top: 1.5rem; line-height: 1.6; }
 </style>
 </head>
 <body>
@@ -72,7 +128,14 @@
     🔔 Tap here first to enable alarm on this device
   </div>
 
-  <div class="firebase-status" id="syncStatus">Connecting…</div>
+  <div class="sync-status" id="syncStatus">Connecting…</div>
+
+  <!-- Run group display (everyone sees this) -->
+  <div class="run-group-display">
+    <div class="run-group-label">Current Run Group</div>
+    <div class="run-group-name empty" id="currentGroupName">—</div>
+    <div class="next-group-label">Up next: <span id="nextGroupName">—</span></div>
+  </div>
 
   <div id="pill" class="status-pill pill-stopped">
     <div class="dot" id="dot"></div>
@@ -93,25 +156,44 @@
     <div class="milestone"><div class="m-label">End</div><div class="m-badge upcoming" id="m0">Time's up</div></div>
   </div>
 
+  <!-- Next group ready banner (shown after timer ends) -->
+  <div class="next-ready-banner" id="nextReadyBanner">
+    <div class="nr-label">Next up</div>
+    <div class="nr-text" id="nextReadyText">Ready to start when you are</div>
+  </div>
+
+  <!-- Timer controls (admin only) -->
   <div class="controls">
     <button class="btn btn-green" id="startBtn" onclick="handleStart()">▶ Start</button>
     <button class="btn" id="pauseBtn" onclick="handlePause()" style="display:none">⏸ Pause</button>
-    <button class="btn" onclick="handleReset()">↺ Reset</button>
+    <button class="btn" id="resetBtn" onclick="handleReset()">↺ Reset</button>
     <button class="btn btn-orange" id="dismissBtn" onclick="handleDismiss()" style="display:none">🔕 Dismiss</button>
   </div>
 
-  <div class="divider"></div>
-  <div class="section-label">Session duration</div>
-  <div class="duration-row">
-    <button class="pill-btn active" id="dur-45" onclick="setDuration(2700, this)">45 min</button>
-    <button class="pill-btn" id="dur-custom" onclick="toggleCustom(this)">Custom</button>
-  </div>
-  <div class="custom-row" id="customRow" style="display:none">
-    <input type="number" id="customMin" min="1" max="99" placeholder="minutes" />
-    <button class="pill-btn" onclick="setCustom()">Set</button>
-  </div>
+  <!-- View-only badge for non-admins -->
+  <div class="view-only-badge" id="viewOnlyBadge" style="display:none">👁 View only</div>
 
-  <div class="sound-section">
+  <div class="divider"></div>
+
+  <!-- Admin panel -->
+  <div class="admin-panel" id="adminPanel">
+    <div class="section-label">Run Groups</div>
+    <div class="group-inputs">
+      <div class="group-input-row">
+        <label>Group 1</label>
+        <input type="text" id="group1Input" placeholder="e.g. Group A" oninput="updateGroupNames()" />
+      </div>
+      <div class="group-input-row">
+        <label>Group 2</label>
+        <input type="text" id="group2Input" placeholder="e.g. Group B" oninput="updateGroupNames()" />
+      </div>
+    </div>
+    <div class="section-label">Active Group</div>
+    <div class="active-group-btns">
+      <button class="group-select-btn active" id="grpBtn0" onclick="setActiveGroup(0)">Group 1</button>
+      <button class="group-select-btn" id="grpBtn1" onclick="setActiveGroup(1)">Group 2</button>
+    </div>
+
     <div class="divider"></div>
     <div class="section-label">Alarm sound</div>
     <div class="toggle-row">
@@ -126,17 +208,36 @@
       <button class="sound-opt" id="opt-horn" onclick="selectSound('horn')">Air horn</button>
       <button class="sound-opt" id="opt-buzz" onclick="selectSound('buzz')">Buzz</button>
     </div>
+
+    <div class="admin-lock" onclick="lockAdmin()">🔒 Lock admin</div>
   </div>
 
-  <p class="sync-note">Syncs in real-time — share this page URL with your group.<br>Each person taps the banner once to enable sound.</p>
+  <!-- Non-admin unlock prompt -->
+  <div id="adminUnlock" style="margin-top:1.5rem">
+    <span style="font-size:12px;color:#333;cursor:pointer" onclick="showLogin()">Admin login</span>
+  </div>
+
+  <p class="sync-note">Share this page URL with your group.</p>
 </div>
 
-<!-- Firebase -->
+<!-- Login overlay -->
+<div class="login-overlay" id="loginOverlay">
+  <div class="login-box">
+    <h2>Admin Access</h2>
+    <p>Enter the admin password to control the timer.</p>
+    <input type="password" id="passwordInput" placeholder="Password" onkeydown="if(event.key==='Enter')checkPassword()" />
+    <div class="login-error" id="loginError"></div>
+    <div class="login-btns">
+      <button onclick="hideLogin()">Cancel</button>
+      <button class="btn-confirm" onclick="checkPassword()">Unlock</button>
+    </div>
+  </div>
+</div>
+
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import { getDatabase, ref, onValue, set } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
 
-// ── PASTE YOUR FIREBASE CONFIG HERE ──────────────────────────────
 const firebaseConfig = {
   apiKey: "AIzaSyBf8drdRTu-PhfXUAqTWaoKxL09WEmBleo",
   authDomain: "gll-timer.firebaseapp.com",
@@ -144,28 +245,30 @@ const firebaseConfig = {
   projectId: "gll-timer",
   storageBucket: "gll-timer.firebasestorage.app",
   messagingSenderId: "88345186429",
-  appId: "1:88345186429:web:3f3ab4f571ac3cb0782114"
+  appId: "1:88345186429:web:3f3ab4f571ac3cb0782114",
+  measurementId: "G-PSP43LTKW0"
 };
-// ─────────────────────────────────────────────────────────────────
 
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 const timerRef = ref(db, 'gll/timer');
 
+const ADMIN_PASSWORD = 'Daphne2026';
 const MILESTONES = [900, 600, 300];
+
 let audioCtx = null;
 let audioUnlocked = false;
 let alarmPlaying = false;
 let alarmInterval = null;
 let selectedSound = 'beep';
 let alarmEnabled = true;
-let activeDurBtn = document.getElementById('dur-45');
+let isAdmin = false;
 let localTick = null;
 let state = null;
 let ignoreNextRemote = false;
 
 // ── Audio ──────────────────────────────────────────────────────
-window.unlockAudio = function() {
+window.unlockAudio = () => {
   try {
     if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
     if (audioCtx.state === 'suspended') audioCtx.resume();
@@ -175,18 +278,18 @@ window.unlockAudio = function() {
     audioUnlocked = true;
     document.getElementById('audioBanner').classList.add('hidden');
   } catch(e) {}
-}
+};
 
-window.selectSound = function(name) {
+window.selectSound = (name) => {
   selectedSound = name;
   ['beep','horn','buzz'].forEach(n => document.getElementById('opt-'+n).classList.toggle('selected', n===name));
-}
+};
 
-window.onAlarmToggle = function() {
+window.onAlarmToggle = () => {
   alarmEnabled = document.getElementById('alarmToggle').checked;
   document.getElementById('alarmLabel').textContent = alarmEnabled ? 'Alarm on' : 'Alarm off';
   document.getElementById('soundOpts').style.opacity = alarmEnabled ? '1' : '0.4';
-}
+};
 
 function playTone(isMilestone) {
   if (!audioUnlocked || !alarmEnabled) return;
@@ -243,7 +346,45 @@ function stopAlarm() {
   if (alarmInterval) { clearInterval(alarmInterval); alarmInterval = null; }
 }
 
-// ── State helpers ───────────────────────────────────────────────
+// ── Admin auth ────────────────────────────────────────────────
+window.showLogin = () => {
+  document.getElementById('loginOverlay').classList.add('visible');
+  document.getElementById('passwordInput').value = '';
+  document.getElementById('loginError').textContent = '';
+  setTimeout(() => document.getElementById('passwordInput').focus(), 100);
+};
+window.hideLogin = () => document.getElementById('loginOverlay').classList.remove('visible');
+
+window.checkPassword = () => {
+  const val = document.getElementById('passwordInput').value;
+  if (val === ADMIN_PASSWORD) {
+    isAdmin = true;
+    hideLogin();
+    applyAdminUI();
+  } else {
+    document.getElementById('loginError').textContent = 'Incorrect password.';
+    document.getElementById('passwordInput').value = '';
+  }
+};
+
+window.lockAdmin = () => {
+  isAdmin = false;
+  applyAdminUI();
+};
+
+function applyAdminUI() {
+  document.getElementById('adminPanel').classList.toggle('visible', isAdmin);
+  document.getElementById('adminUnlock').style.display = isAdmin ? 'none' : 'block';
+  document.getElementById('viewOnlyBadge').style.display = isAdmin ? 'none' : 'inline-block';
+  // Controls
+  ['startBtn','pauseBtn','resetBtn','dismissBtn'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.style.pointerEvents = isAdmin ? 'auto' : 'none';
+  });
+  document.querySelector('.controls').style.opacity = isAdmin ? '1' : '0.3';
+}
+
+// ── State helpers ─────────────────────────────────────────────
 function remaining(s) {
   if (!s) return 0;
   if (s.running && s.startedAt) return Math.max(0, s.remainingAtStart - (Date.now() - s.startedAt) / 1000);
@@ -260,39 +401,79 @@ function saveState(s) {
   set(timerRef, s);
 }
 
-// ── Render ──────────────────────────────────────────────────────
+function getGroupName(s, idx) {
+  const names = s.groupNames || ['Group A', 'Group B'];
+  return names[idx] || `Group ${idx+1}`;
+}
+
+// ── Render ────────────────────────────────────────────────────
 function render(s) {
   if (!s) return;
   const rem = remaining(s);
   const fired = s.firedMilestones || [];
+  const activeIdx = s.activeGroup ?? 0;
+  const nextIdx = 1 - activeIdx;
+  const activeName = getGroupName(s, activeIdx);
+  const nextName = getGroupName(s, nextIdx);
 
+  // Group display
+  const nameEl = document.getElementById('currentGroupName');
+  nameEl.textContent = activeName || '—';
+  nameEl.className = 'run-group-name' + (activeName ? '' : ' empty');
+  document.getElementById('nextGroupName').textContent = nextName || '—';
+
+  // Sync group name inputs if admin
+  if (isAdmin) {
+    const names = s.groupNames || ['', ''];
+    const g1 = document.getElementById('group1Input');
+    const g2 = document.getElementById('group2Input');
+    if (document.activeElement !== g1) g1.value = names[0] || '';
+    if (document.activeElement !== g2) g2.value = names[1] || '';
+    // Active group buttons
+    document.getElementById('grpBtn0').classList.toggle('active', activeIdx === 0);
+    document.getElementById('grpBtn1').classList.toggle('active', activeIdx === 1);
+    document.getElementById('grpBtn0').textContent = names[0] || 'Group 1';
+    document.getElementById('grpBtn1').textContent = names[1] || 'Group 2';
+  }
+
+  // Timer display
   document.getElementById('display').textContent = fmt(rem);
 
-  // milestone badges
+  // Milestone badges
   [{id:'m15',secs:900},{id:'m10',secs:600},{id:'m5',secs:300},{id:'m0',secs:0}].forEach(({id,secs}) => {
-    const el = document.getElementById(id);
     const isFired = fired.includes(secs) || (secs===0 && rem<=0 && s.totalSeconds>0);
-    el.className = 'm-badge ' + (isFired ? 'fired' : 'upcoming');
+    document.getElementById(id).className = 'm-badge ' + (isFired ? 'fired' : 'upcoming');
   });
 
-  // 10-min message: show between 10min fired and 5min fired
-  const show10msg = fired.includes(600) && !fired.includes(300) && s.running;
-  document.getElementById('alertMsg').classList.toggle('visible', show10msg);
+  // 10-min message
+  const show10 = fired.includes(600) && !fired.includes(300) && s.running;
+  document.getElementById('alertMsg').classList.toggle('visible', show10);
 
+  // Next group ready banner (shown when alarming, shows next group)
+  const bannerEl = document.getElementById('nextReadyBanner');
+  if (s.alarming) {
+    bannerEl.classList.add('visible');
+    document.getElementById('nextReadyText').textContent = `${nextName} is up next — press Start when ready`;
+  } else {
+    bannerEl.classList.remove('visible');
+  }
+
+  // Pill + display color
+  const disp = document.getElementById('display');
   const pill = document.getElementById('pill');
   const dot = document.getElementById('dot');
   const pillText = document.getElementById('pillText');
   const startBtn = document.getElementById('startBtn');
   const pauseBtn = document.getElementById('pauseBtn');
   const dismissBtn = document.getElementById('dismissBtn');
-  const disp = document.getElementById('display');
 
   if (s.alarming) {
     disp.className = 'time-display danger';
     pill.className = 'status-pill pill-done';
     dot.classList.add('pulse');
     pillText.textContent = "Time's up!";
-    startBtn.style.display = 'none';
+    startBtn.style.display = 'inline-flex';
+    startBtn.innerHTML = '▶ Start ' + nextName;
     pauseBtn.style.display = 'none';
     dismissBtn.style.display = 'inline-flex';
     if (!alarmPlaying) startAlarm(false);
@@ -309,21 +490,21 @@ function render(s) {
     disp.className = 'time-display muted';
     pill.className = 'status-pill pill-stopped';
     dot.classList.remove('pulse');
-    pillText.textContent = rem > 0 ? 'Paused' : s.totalSeconds > 0 && rem === 0 ? 'Done' : 'Ready';
+    pillText.textContent = rem > 0 ? 'Paused' : s.totalSeconds > 0 && rem === 0 && !s.alarming ? 'Done' : 'Ready';
     startBtn.style.display = 'inline-flex';
+    startBtn.innerHTML = '▶ Start';
     pauseBtn.style.display = 'none';
     dismissBtn.style.display = 'none';
-    stopAlarm();
+    if (!s.alarming) stopAlarm();
   }
 }
 
-// ── Local tick (smooth countdown) ──────────────────────────────
+// ── Local tick ────────────────────────────────────────────────
 function startTick() {
   if (localTick) return;
   localTick = setInterval(() => {
     if (!state?.running || state?.alarming) return;
     const rem = remaining(state);
-    // Check milestones locally and push to Firebase
     MILESTONES.forEach(m => {
       if (rem <= m && !(state.firedMilestones||[]).includes(m)) {
         if (!state.firedMilestones) state.firedMilestones = [];
@@ -342,18 +523,15 @@ function startTick() {
   }, 250);
 }
 
-// ── Firebase listener ──────────────────────────────────────────
+// ── Firebase listener ─────────────────────────────────────────
 onValue(timerRef, (snapshot) => {
   document.getElementById('syncStatus').textContent = '● Synced';
-  document.getElementById('syncStatus').className = 'firebase-status connected';
-
+  document.getElementById('syncStatus').className = 'sync-status connected';
   if (ignoreNextRemote) { ignoreNextRemote = false; return; }
-
   const remote = snapshot.val();
   if (!remote) {
-    state = { running:false, remainingAtStart:2700, totalSeconds:2700, startedAt:null, alarming:false, firedMilestones:[] };
-    render(state);
-    return;
+    state = defaultState();
+    render(state); return;
   }
   state = remote;
   if (!state.firedMilestones) state.firedMilestones = [];
@@ -361,64 +539,78 @@ onValue(timerRef, (snapshot) => {
   if (state.running) startTick();
 });
 
-// ── Controls ───────────────────────────────────────────────────
-window.handleStart = function() {
-  const s = state || { running:false, remainingAtStart:2700, totalSeconds:2700, startedAt:null, alarming:false, firedMilestones:[] };
-  if (!s.firedMilestones) s.firedMilestones = [];
-  if (s.remainingAtStart <= 0) s.remainingAtStart = s.totalSeconds || 2700;
-  if (s.remainingAtStart === s.totalSeconds) s.firedMilestones = [];
-  s.running = true; s.alarming = false; s.startedAt = Date.now();
-  state = s; saveState(s); render(s); startTick();
+function defaultState() {
+  return { running:false, remainingAtStart:2700, totalSeconds:2700, startedAt:null, alarming:false, firedMilestones:[], activeGroup:0, groupNames:['',''] };
 }
 
-window.handlePause = function() {
-  if (!state) return;
+// ── Controls ──────────────────────────────────────────────────
+window.handleStart = () => {
+  if (!isAdmin) return;
+  const s = state || defaultState();
+  if (!s.firedMilestones) s.firedMilestones = [];
+
+  if (s.alarming) {
+    // Switch to next group automatically
+    const nextIdx = 1 - (s.activeGroup ?? 0);
+    s.activeGroup = nextIdx;
+    s.alarming = false;
+    s.firedMilestones = [];
+    s.totalSeconds = 2700;
+    s.remainingAtStart = 2700;
+  } else {
+    if (s.remainingAtStart <= 0) s.remainingAtStart = s.totalSeconds || 2700;
+    if (s.remainingAtStart === s.totalSeconds) s.firedMilestones = [];
+  }
+
+  s.running = true;
+  s.startedAt = Date.now();
+  state = s;
+  saveState(s);
+  render(s);
+  startTick();
+};
+
+window.handlePause = () => {
+  if (!isAdmin || !state) return;
   state.remainingAtStart = remaining(state);
   state.running = false; state.startedAt = null;
   saveState(state); render(state);
-}
+};
 
-window.handleReset = function() {
+window.handleReset = () => {
+  if (!isAdmin) return;
   stopAlarm();
   document.getElementById('alertMsg').classList.remove('visible');
-  const total = state?.totalSeconds || 2700;
-  state = { running:false, remainingAtStart:total, totalSeconds:total, startedAt:null, alarming:false, firedMilestones:[] };
-  saveState(state); render(state);
-}
+  const s = state || defaultState();
+  s.running = false; s.remainingAtStart = 2700; s.totalSeconds = 2700;
+  s.startedAt = null; s.alarming = false; s.firedMilestones = [];
+  state = s; saveState(s); render(s);
+};
 
-window.handleDismiss = function() {
+window.handleDismiss = () => {
+  if (!isAdmin) return;
   stopAlarm();
-  document.getElementById('alertMsg').classList.remove('visible');
-  if (!state) return;
-  state.alarming = false; state.remainingAtStart = state.totalSeconds; state.firedMilestones = [];
+};
+
+window.updateGroupNames = () => {
+  if (!isAdmin || !state) return;
+  const n1 = document.getElementById('group1Input').value;
+  const n2 = document.getElementById('group2Input').value;
+  state.groupNames = [n1, n2];
   saveState(state); render(state);
-}
+};
 
-window.setDuration = function(secs, btn) {
-  if (activeDurBtn) activeDurBtn.classList.remove('active');
-  if (btn) { btn.classList.add('active'); activeDurBtn = btn; }
-  document.getElementById('customRow').style.display = 'none';
-  state = { running:false, remainingAtStart:secs, totalSeconds:secs, startedAt:null, alarming:false, firedMilestones:[] };
+window.setActiveGroup = (idx) => {
+  if (!isAdmin || !state) return;
+  state.activeGroup = idx;
+  state.running = false; state.remainingAtStart = 2700; state.totalSeconds = 2700;
+  state.startedAt = null; state.alarming = false; state.firedMilestones = [];
   saveState(state); render(state);
-}
+};
 
-window.toggleCustom = function(btn) {
-  if (activeDurBtn) activeDurBtn.classList.remove('active');
-  btn.classList.add('active'); activeDurBtn = btn;
-  document.getElementById('customRow').style.display = 'flex';
-}
-
-window.setCustom = function() {
-  const m = parseInt(document.getElementById('customMin').value) || 0;
-  if (!m) return;
-  document.getElementById('customMin').value = '';
-  const total = m * 60;
-  state = { running:false, remainingAtStart:total, totalSeconds:total, startedAt:null, alarming:false, firedMilestones:[] };
-  saveState(state); render(state);
-}
-
-// Initial render
-state = { running:false, remainingAtStart:2700, totalSeconds:2700, startedAt:null, alarming:false, firedMilestones:[] };
+// Init
+applyAdminUI();
+state = defaultState();
 render(state);
 </script>
 </body>
