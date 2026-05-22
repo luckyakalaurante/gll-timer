@@ -156,7 +156,7 @@
     <div class="milestone"><div class="m-label">Alert</div><div class="m-badge upcoming" id="m15">15 min</div></div>
     <div class="milestone"><div class="m-label">Alert</div><div class="m-badge upcoming" id="m10">10 min</div></div>
     <div class="milestone"><div class="m-label">Alert</div><div class="m-badge upcoming" id="m5">5 min</div></div>
-    <div class="milestone"><div class="m-label">End</div><div class="m-badge upcoming" id="m0">Time's up</div></div>
+    <div class="milestone"><div class="m-label">End</div><div class="m-badge upcoming" id="m0">Done, Next Group</div></div>
   </div>
 
   <!-- Next group ready banner (shown after timer ends) -->
@@ -231,7 +231,7 @@
     <span style="font-size:12px;color:#333;cursor:pointer" onclick="showLogin()">Admin login</span>
   </div>
 
-  <p class="sync-note">Share this page URL with your group.</p>
+  
 </div>
 
 <!-- Login overlay -->
@@ -390,12 +390,12 @@ function applyAdminUI() {
   document.getElementById('adminPanel').classList.toggle('visible', isAdmin);
   document.getElementById('adminUnlock').style.display = isAdmin ? 'none' : 'block';
   document.getElementById('viewOnlyBadge').style.display = isAdmin ? 'none' : 'inline-block';
-  // Controls
-  ['startBtn','pauseBtn','resetBtn','dismissBtn'].forEach(id => {
-    const el = document.getElementById(id);
-    if (el) el.style.pointerEvents = isAdmin ? 'auto' : 'none';
-  });
-  document.querySelector('.controls').style.opacity = isAdmin ? '1' : '0.3';
+  // Show/hide controls based on role
+  document.getElementById('pauseBtn').style.display = isAdmin ? '' : 'none';
+  document.getElementById('resetBtn').style.display = isAdmin ? '' : 'none';
+  document.getElementById('startBtn').style.pointerEvents = isAdmin ? 'auto' : 'none';
+  document.getElementById('dismissBtn').style.pointerEvents = isAdmin ? 'auto' : 'none';
+  document.querySelector('.controls').style.opacity = isAdmin ? '1' : '0.4';
 }
 
 // ── State helpers ─────────────────────────────────────────────
@@ -460,7 +460,7 @@ function render(s) {
   });
 
   // 10-min message
-  const show10 = fired.includes(600) && !fired.includes(300) && s.running;
+  const show10 = isAdmin && fired.includes(600) && !fired.includes(300) && s.running;
   document.getElementById('alertMsg').classList.toggle('visible', show10);
 
   // Next group ready banner (shown when alarming, shows next group)
@@ -485,7 +485,7 @@ function render(s) {
     disp.className = 'time-display danger';
     pill.className = 'status-pill pill-done';
     dot.classList.add('pulse');
-    pillText.textContent = "Time's up!";
+    pillText.textContent = "Done, Next Group";
     startBtn.style.display = 'inline-flex';
     startBtn.innerHTML = '▶ Start ' + nextName;
     pauseBtn.style.display = 'none';
